@@ -29,10 +29,11 @@ class Extractor(object):
     source    = None
     data      = None
     headers   = {'User-Agent': 'Mozilla/5.0'}
-    
+
     def __init__(self, extractor='DefaultExtractor', **kwargs):
         if kwargs.get('url'):
-            request     = urllib2.Request(kwargs['url'], headers=self.headers)
+            # request     = urllib2.Request(kwargs['url'], headers=self.headers)
+            request     = urllib2.Request(kwargs['url'])
             connection  = urllib2.urlopen(request)
             self.data   = connection.read()
             encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
@@ -52,23 +53,23 @@ class Extractor(object):
                 if jpype.isThreadAttachedToJVM() == False:
                     jpype.attachThreadToJVM()
             lock.acquire()
-            
+
             self.extractor = jpype.JClass(
                 "de.l3s.boilerpipe.extractors."+extractor).INSTANCE
         finally:
             lock.release()
-    
+
         reader = StringReader(self.data)
         self.source = BoilerpipeSAXInput(InputSource(reader)).getTextDocument()
         self.extractor.process(self.source)
-    
+
     def getText(self):
         return self.source.getContent()
-    
+
     def getHTML(self):
         highlighter = HTMLHighlighter.newExtractingInstance()
         return highlighter.process(self.source, self.data)
-    
+
     def getImages(self):
         extractor = jpype.JClass(
             "de.l3s.boilerpipe.sax.ImageExtractor").INSTANCE
