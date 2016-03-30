@@ -32,8 +32,8 @@ class Extractor(object):
 
     def __init__(self, extractor='DefaultExtractor', **kwargs):
         if kwargs.get('url'):
-            # request     = urllib2.Request(kwargs['url'], headers=self.headers)
-            request     = urllib2.Request(kwargs['url'])
+            request     = urllib2.Request(kwargs['url'], headers=self.headers)
+            # request     = urllib2.Request(kwargs['url'])
             connection  = urllib2.urlopen(request)
             self.data   = connection.read()
             encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
