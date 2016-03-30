@@ -39,11 +39,11 @@ class Extractor(object):
             encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
             if encoding.lower() == 'text/html':
                 encoding = charade.detect(self.data)['encoding']
-            self.data = unicode(self.data, encoding)
+            self.data = unicode(self.data, encoding, errors='replace')
         elif kwargs.get('html'):
             self.data = kwargs['html']
             if not isinstance(self.data, unicode):
-                self.data = unicode(self.data, charade.detect(self.data)['encoding'])
+                self.data = unicode(self.data, charade.detect(self.data)['encoding'], errors='replace')
         else:
             raise Exception('No text or url provided')
 
