@@ -43,7 +43,7 @@ class Extractor(object):
         elif kwargs.get('html'):
             self.data = kwargs['html']
             if not isinstance(self.data, unicode):
-                self.data = unicode(self.data, charade.detect(self.data)['encoding'], errors='replace')
+                self.data = unicode(self.data, charade.detect(self.data)['encoding'])
         else:
             raise Exception('No text or url provided')
 
