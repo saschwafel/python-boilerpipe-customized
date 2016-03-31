@@ -1,7 +1,8 @@
 import jpype
-import urllib2
+# import urllib2
 import socket
 import charade
+import requests
 import threading
 
 socket.setdefaulttimeout(15)
@@ -11,6 +12,7 @@ InputSource        = jpype.JClass('org.xml.sax.InputSource')
 StringReader       = jpype.JClass('java.io.StringReader')
 HTMLHighlighter    = jpype.JClass('de.l3s.boilerpipe.sax.HTMLHighlighter')
 BoilerpipeSAXInput = jpype.JClass('de.l3s.boilerpipe.sax.BoilerpipeSAXInput')
+
 
 class Extractor(object):
     """
@@ -32,11 +34,17 @@ class Extractor(object):
 
     def __init__(self, extractor='DefaultExtractor', **kwargs):
         if kwargs.get('url'):
-            request     = urllib2.Request(kwargs['url'], headers=self.headers)
+            # request     = urllib2.Request(kwargs['url'], headers=self.headers)
+            request     = requests.get(kwargs['url'], headers=self.headers)
+
+            # Deprecated urllib2 code
             # request     = urllib2.Request(kwargs['url'])
-            connection  = urllib2.urlopen(request)
-            self.data   = connection.read()
-            encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
+            # connection  = urllib2.urlopen(request)
+            # self.data   = connection.read()
+
+            self.data   = request.text()
+            # encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
+            encoding    = request.headers['content-type'].lower().split('charset=')[-1]
             if encoding.lower() == 'text/html':
                 encoding = charade.detect(self.data)['encoding']
             self.data = unicode(self.data, encoding, errors='replace')
@@ -77,11 +85,11 @@ class Extractor(object):
         jpype.java.util.Collections.sort(images)
         images = [
             {
-                'src'   : image.getSrc(),
-                'width' : image.getWidth(),
+                'src': image.getSrc(),
+                'width': image.getWidth(),
                 'height': image.getHeight(),
-                'alt'   : image.getAlt(),
-                'area'  : image.getArea()
+                'alt': image.getAlt(),
+                'area': image.getArea()
             } for image in images
         ]
         return images
