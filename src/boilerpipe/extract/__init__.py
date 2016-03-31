@@ -45,12 +45,12 @@ class Extractor(object):
             # request     = urllib2.Request(kwargs['url'])
             # connection  = urllib2.urlopen(request)
             # self.data   = connection.read()
+            encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
 
             # Try requests
             # request     = requests.get(kwargs['url'], headers=self.headers, verify=False)
 
             # self.data   = request.text
-            # # encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
             # encoding    = request.headers['content-type'].lower().split('charset=')[-1]
 
             if encoding.lower() == 'text/html':
