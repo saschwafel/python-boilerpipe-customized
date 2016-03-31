@@ -3,7 +3,8 @@ import jpype
 import socket
 import charade
 import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+import requests.packages
+# from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import threading
 
 # Disabling this SSL error
