@@ -45,8 +45,19 @@ class Extractor(object):
             self.data   = request.text
             # encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
             encoding    = request.headers['content-type'].lower().split('charset=')[-1]
-            if encoding.lower() == 'text/html':
-                encoding = charade.detect(self.data)['encoding']
+
+            # === <Debugging> ============
+
+            try:
+
+                if encoding.lower() == 'text/html':
+                    encoding = charade.detect(self.data)['encoding']
+
+            except Exception as e:
+
+                print e
+                import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
+
             # self.data = unicode(self.data, encoding, errors='replace')
         elif kwargs.get('html'):
             self.data = kwargs['html']
