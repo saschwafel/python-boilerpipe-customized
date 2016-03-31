@@ -35,7 +35,7 @@ class Extractor(object):
     def __init__(self, extractor='DefaultExtractor', **kwargs):
         if kwargs.get('url'):
             # request     = urllib2.Request(kwargs['url'], headers=self.headers)
-            request     = requests.get(kwargs['url'], headers=self.headers)
+            request     = requests.get(kwargs['url'], headers=self.headers, verify=False)
 
             # Deprecated urllib2 code
             # request     = urllib2.Request(kwargs['url'])
