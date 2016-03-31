@@ -47,7 +47,7 @@ class Extractor(object):
             encoding    = request.headers['content-type'].lower().split('charset=')[-1]
             if encoding.lower() == 'text/html':
                 encoding = charade.detect(self.data)['encoding']
-            self.data = unicode(self.data, encoding, errors='replace')
+            # self.data = unicode(self.data, encoding, errors='replace')
         elif kwargs.get('html'):
             self.data = kwargs['html']
             if not isinstance(self.data, unicode):
