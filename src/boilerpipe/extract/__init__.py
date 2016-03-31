@@ -42,7 +42,7 @@ class Extractor(object):
             # connection  = urllib2.urlopen(request)
             # self.data   = connection.read()
 
-            self.data   = request.text()
+            self.data   = request.text
             # encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
             encoding    = request.headers['content-type'].lower().split('charset=')[-1]
             if encoding.lower() == 'text/html':
