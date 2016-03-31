@@ -50,8 +50,20 @@ class Extractor(object):
             # self.data = unicode(self.data, encoding, errors='replace')
         elif kwargs.get('html'):
             self.data = kwargs['html']
-            if not isinstance(self.data, unicode):
-                self.data = unicode(self.data, charade.detect(self.data)['encoding'], errors='replace')
+
+            # === <Debugging> ============
+
+            try:
+
+                if not isinstance(self.data, unicode):
+                    self.data = unicode(self.data, charade.detect(self.data)['encoding'], errors='replace')
+                    import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
+            except Exception as e:
+
+                print e
+                import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
+
+            # === </Debugging> ============
         else:
             raise Exception('No text or url provided')
 
