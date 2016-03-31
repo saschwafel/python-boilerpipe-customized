@@ -55,7 +55,14 @@ class Extractor(object):
             if encoding.lower() == 'text/html':
                 encoding = charade.detect(self.data)['encoding']
 
-            self.data = unicode(self.data, encoding, errors='replace')
+            try:
+
+                self.data = unicode(self.data, encoding, errors='replace')
+
+            except LookupError as e:
+
+                print e
+                import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
 
         elif kwargs.get('html'):
             self.data = kwargs['html']
