@@ -3,6 +3,7 @@ import jpype
 import socket
 import charade
 import requests
+from requests.packages.urllib3.disable_warnings("InsecureRequestWarning")
 import threading
 
 socket.setdefaulttimeout(15)
