@@ -8,7 +8,7 @@ import requests.packages
 import threading
 
 # Disabling this SSL error
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+requests.packages.urllib3.disable_warnings('InsecureRequestWarning')
 
 socket.setdefaulttimeout(15)
 lock = threading.Lock()
