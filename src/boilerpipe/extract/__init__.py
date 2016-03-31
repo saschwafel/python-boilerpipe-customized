@@ -42,7 +42,16 @@ class Extractor(object):
             # Version without headers
             # request     = urllib2.Request(kwargs['url'])
 
-            connection  = urllib2.urlopen(request)
+            try:
+
+                connection  = urllib2.urlopen(request)
+
+            except urllib2.HTTPError as e:
+
+                print e
+                print kwargs['url']
+                import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
+
             self.data   = connection.read()
             encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
 
