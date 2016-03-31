@@ -3,11 +3,11 @@ import jpype
 import socket
 import charade
 import requests
-from requests.packages.urllib3 import InsecureRequestWarning
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import threading
 
 # Disabling this SSL error
-requests.packages.urllib3.disable_warnings("InsecureRequestWarning")
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 socket.setdefaulttimeout(15)
 lock = threading.Lock()
