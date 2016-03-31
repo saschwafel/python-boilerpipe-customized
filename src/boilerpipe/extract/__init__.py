@@ -40,46 +40,31 @@ class Extractor(object):
     def __init__(self, extractor='DefaultExtractor', **kwargs):
         if kwargs.get('url'):
             # request     = urllib2.Request(kwargs['url'], headers=self.headers)
-            request     = requests.get(kwargs['url'], headers=self.headers, verify=False)
 
             # Deprecated urllib2 code
             # request     = urllib2.Request(kwargs['url'])
             # connection  = urllib2.urlopen(request)
             # self.data   = connection.read()
 
-            self.data   = request.text
-            # encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
-            encoding    = request.headers['content-type'].lower().split('charset=')[-1]
+            # Try requests
+            # request     = requests.get(kwargs['url'], headers=self.headers, verify=False)
 
-            # === <Debugging> ============
+            # self.data   = request.text
+            # # encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
+            # encoding    = request.headers['content-type'].lower().split('charset=')[-1]
 
-            try:
+            if encoding.lower() == 'text/html':
+                encoding = charade.detect(self.data)['encoding']
 
-                if encoding.lower() == 'text/html':
-                    encoding = charade.detect(self.data)['encoding']
+            self.data = unicode(self.data, encoding, errors='replace')
 
-            except Exception as e:
-
-                print e
-                import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
-
-            # self.data = unicode(self.data, encoding, errors='replace')
         elif kwargs.get('html'):
             self.data = kwargs['html']
 
-            # === <Debugging> ============
-
-            try:
-
-                if not isinstance(self.data, unicode):
-                    self.data = unicode(self.data, charade.detect(self.data)['encoding'], errors='replace')
-                    import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
-            except Exception as e:
-
-                print e
+            if not isinstance(self.data, unicode):
+                self.data = unicode(self.data, charade.detect(self.data)['encoding'], errors='replace')
                 import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
 
-            # === </Debugging> ============
         else:
             raise Exception('No text or url provided')
 
