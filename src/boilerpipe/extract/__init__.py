@@ -39,12 +39,14 @@ class Extractor(object):
 
     def __init__(self, extractor='DefaultExtractor', **kwargs):
         if kwargs.get('url'):
-            # request     = urllib2.Request(kwargs['url'], headers=self.headers)
 
-            # Deprecated urllib2 code
+            request     = urllib2.Request(kwargs['url'], headers=self.headers)
+
+            # Version without headers
             # request     = urllib2.Request(kwargs['url'])
-            # connection  = urllib2.urlopen(request)
-            # self.data   = connection.read()
+
+            connection  = urllib2.urlopen(request)
+            self.data   = connection.read()
             encoding    = connection.headers['content-type'].lower().split('charset=')[-1]
 
             # Try requests
