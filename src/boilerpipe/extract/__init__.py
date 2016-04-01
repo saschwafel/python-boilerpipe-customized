@@ -48,7 +48,10 @@ class Extractor(object):
 
                 self.data   = connection.read()
 
-            except urllib2.HTTPError as e:
+            except (urllib2.HTTPError, urllib2.URLError) as e:
+
+                print e
+                import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
 
                 # Return blank page if error returned
                 self.data = e.fp.read()
